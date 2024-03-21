@@ -164,3 +164,57 @@ module.exports.filterUsers = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to filter users" });
   }
 };
+
+module.exports.getDomains = async (req, res) => {
+  try {
+    const uniqueDomains = await User.distinct("domain", { available: true });
+    res.status(200).json({
+      success: true,
+      uniqueDomains,
+      message: "Successful fetching of the domains",
+    });
+  } catch (error) {
+    console.error("Error in finding domain", error);
+    res.status(500).json({ success: false, message: "Failed to filter users" });
+  }
+};
+
+module.exports.getUsersBasedOnDomain = async (req, res) => {
+  try {
+    const { domain } = req.params;
+    const users = await User.find({ domain });
+    if (!users) {
+      res.status(400).send({
+        success: false,
+        message: "No such users found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Users fetched ",
+      users,
+    });
+  } catch (error) {
+    console.error("Error getting users based on domains :", error);
+    res.status(500).json({ success: false, message: "Failed to filter users" });
+  }
+};
+
+module.exports.searchUser=async(req,res)=>{
+  try {
+    const { q } = req.query;
+    const regex = new RegExp(q, "i"); // Case-insensitive regex pattern
+
+    const users = await User.find({
+      $or: [{ first_name: regex }, { last_name: regex }],
+    }).limit(20);
+
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    console.error("Error searching for users:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to search for users" });
+  }
+
+}
