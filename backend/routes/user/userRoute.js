@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require("../../controllers/userController");
 router.get("/filter", userController.filterUsers);
 router.get("/domains", userController.getDomains);
-router.get("/domains/:domain", userController.getUsersBasedOnDomain);
+router.get("/user-domain", userController.getUsersBasedOnDomain);
 router.get("/search", userController.searchUser);
 router.get("/", userController.getUsers);
 router.get("/:id", userController.getUserById);

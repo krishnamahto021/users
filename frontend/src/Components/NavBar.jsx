@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { MdSearch } from "react-icons/md";
+import { MdSearch, MdList } from "react-icons/md"; // Import the MdList icon
 import { RiUserAddLine, RiTeamFill } from "react-icons/ri";
 import UserForm from "./UserForm";
 import TeamForm from "./TeamForm";
+import TeamList from "../Pages/TeamList";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showUserForm, setShowUserForm] = useState(false);
   const [showTeamForm, setShowTeamForm] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showTeamListModal, setShowTeamListModal] = useState(false); // State for team list modal
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -21,6 +23,10 @@ const Navbar = () => {
 
   const openTeamForm = () => {
     setShowTeamForm(true);
+  };
+
+  const openTeamListModal = () => {
+    setShowTeamListModal(true);
   };
 
   return (
@@ -39,6 +45,10 @@ const Navbar = () => {
         <RiTeamFill
           className="cursor-pointer text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl shadow-xl p-2 rounded-full hover:scale-125 duration-500"
           onClick={openTeamForm}
+        />
+        <MdList // Add the MdList icon for the team list
+          className="cursor-pointer text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl shadow-xl p-2 rounded-full hover:scale-125 duration-500"
+          onClick={openTeamListModal}
         />
       </div>
       {showSearchModal && (
@@ -82,6 +92,19 @@ const Navbar = () => {
             <TeamForm setShowTeamForm={setShowTeamForm} />
             <button
               onClick={() => setShowTeamForm(false)}
+              className="px-4 w-full py-2 font-semibold text-sm  bg-cyan-500 text-white rounded-full shadow-sm mt-4"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {showTeamListModal && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-md shadow-lg w-1/2">
+            <TeamList setShowTeamListModal={setShowTeamListModal} />
+            <button
+              onClick={() => setShowTeamListModal(false)}
               className="px-4 w-full py-2 font-semibold text-sm  bg-cyan-500 text-white rounded-full shadow-sm mt-4"
             >
               Close

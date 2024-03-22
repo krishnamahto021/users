@@ -188,22 +188,34 @@ module.exports.getDomains = async (req, res) => {
 
 module.exports.getUsersBasedOnDomain = async (req, res) => {
   try {
-    const { domain } = req.params;
-    const users = await User.find({ domain });
-    if (!users) {
-      res.status(400).send({
+    const { domain } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+
+    const users = await User.find({ domain, available: true })
+      .skip(skip)
+      .limit(limit);
+
+    if (!users.length) {
+      return res.status(404).json({
         success: false,
-        message: "No such users found",
+        message: "No users found for the specified domain",
       });
     }
+
     res.status(200).json({
       success: true,
-      message: "Users fetched ",
+      message: "Users fetched successfully",
       users,
     });
   } catch (error) {
-    console.error("Error getting users based on domains :", error);
-    res.status(500).json({ success: false, message: "Failed to filter users" });
+    console.error("Error getting users based on domain:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users based on domain",
+      error: error.message,
+    });
   }
 };
 

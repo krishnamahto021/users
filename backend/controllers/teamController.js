@@ -17,14 +17,18 @@ module.exports.createTeam = async (req, res) => {
       users: userIds,
     });
 
-    res.status(201).json({ success: true, team: newTeam });
+    res.status(201).json({
+      success: true,
+      team: newTeam,
+      message: "Team created successfully",
+    });
   } catch (error) {
     console.error("Error creating team:", error);
     res.status(500).json({ success: false, message: "Failed to create team" });
   }
 };
 
-module.exports.fetchTeamDetails = async (req, res) => {
+module.exports.fetchTeamById = async (req, res) => {
   try {
     const { id } = req.params;
     const team = await Team.findById(id).populate({
@@ -39,6 +43,28 @@ module.exports.fetchTeamDetails = async (req, res) => {
     }
 
     res.status(200).json({ success: true, team });
+  } catch (error) {
+    console.error("Error fetching team details:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch team details" });
+  }
+};
+
+module.exports.fetchTeamDetails = async (req, res) => {
+  try {
+    const teams = await Team.find({}).populate({
+      path: "users",
+      select: "first_name last_name email domain avatar",
+    });
+
+    if (!teams) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Team not found" });
+    }
+
+    res.status(200).json({ success: true, teams });
   } catch (error) {
     console.error("Error fetching team details:", error);
     res
