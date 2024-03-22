@@ -1,22 +1,17 @@
 import React from "react";
-import UserCard from "./Components/UserCard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import UserList from "./Pages/UserList";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const App = () => {
   return (
     <>
-      <UserCard
-        user={{
-          id: 1,
-          first_name: "Anet",
-          last_name: "Doe",
-          email: "adoe0@comcast.net",
-          gender: "Female",
-          avatar:
-            "https://robohash.org/sintessequaerat.png?size=50x50&set=set1",
-          domain: "Sales",
-          available: false,
-        }}
-      />
+      <Provider store={store}>
+        <ToastContainer />
+        <UserList />
+      </Provider>
     </>
   );
 };

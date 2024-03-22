@@ -104,7 +104,11 @@ module.exports.updateUser = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    Object.assign(user, updateData);
+    Object.keys(updateData).forEach((key) => {
+      if (key in user) {
+        user[key] = updateData[key];
+      }
+    });
 
     await user.save();
 
@@ -200,7 +204,7 @@ module.exports.getUsersBasedOnDomain = async (req, res) => {
   }
 };
 
-module.exports.searchUser=async(req,res)=>{
+module.exports.searchUser = async (req, res) => {
   try {
     const { q } = req.query;
     const regex = new RegExp(q, "i"); // Case-insensitive regex pattern
@@ -216,5 +220,4 @@ module.exports.searchUser=async(req,res)=>{
       .status(500)
       .json({ success: false, message: "Failed to search for users" });
   }
-
-}
+};

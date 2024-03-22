@@ -5,6 +5,7 @@ router.get("/filter", userController.filterUsers);
 router.get("/domains", userController.getDomains);
 router.get("/domains/:domain", userController.getUsersBasedOnDomain);
 router.get("/search", userController.searchUser);
+router.get("/", userController.getUsers);
 router.get("/:id", userController.getUserById);
 router.post("/", userController.createUser);
 router.put("/:id", userController.updateUser);
