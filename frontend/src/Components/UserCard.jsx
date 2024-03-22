@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { MdMailOutline } from "react-icons/md";
 import { FaMale, FaFemale } from "react-icons/fa";
 import { CgWorkAlt } from "react-icons/cg";
-import { BiEdit } from "react-icons/bi";
-import { updateUser } from "../redux/userReducer";
+import { BiEdit, BiTrash } from "react-icons/bi";
+import { removeUser, updateUser } from "../redux/userReducer";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const UserCard = ({ user }) => {
   const [editing, setEditing] = useState(false);
@@ -13,8 +15,21 @@ const UserCard = ({ user }) => {
 
   const handleUpdate = async () => {
     const userId = user._id;
-    dispatch(updateUser({ userId, updateData:updatedUser }));
+    dispatch(updateUser({ userId, updateData: updatedUser }));
     setEditing(false);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const userId = user._id;
+      const { data } = await axios.delete(`/api/users/${userId}`);
+      if (data.success) {
+        toast.success(data.message);
+        dispatch(removeUser(data.user._id));
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   const handleChange = (e) => {
@@ -126,6 +141,12 @@ const UserCard = ({ user }) => {
             <BiEdit className="mr-1" /> Edit
           </button>
         )}
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded inline-flex items-center ml-5"
+          onClick={handleDelete}
+        >
+          <BiTrash className="mr-1" /> Delete
+        </button>
       </div>
     </div>
   );

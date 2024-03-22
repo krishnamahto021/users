@@ -6,7 +6,10 @@ module.exports.getUsers = async (req, res) => {
 
   try {
     const skip = (page - 1) * limit;
-    const users = await User.find({}).skip(skip).limit(limit);
+    const users = await User.find({})
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
     const totalUsers = await User.countDocuments();
 
     const totalPages = Math.ceil(totalUsers / limit);
@@ -125,7 +128,7 @@ module.exports.deleteUser = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const deletedUser = await User.findOneAndDelete({ id: id });
+    const deletedUser = await User.findByIdAndDelete(id);
 
     if (!deletedUser) {
       return res

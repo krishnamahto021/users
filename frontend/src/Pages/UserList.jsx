@@ -18,7 +18,7 @@ const UserList = () => {
 
   return (
     <section className="bg-gradient-to-r from-[#0077b6] to-[#0096c7]">
-      <div className="grid    grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 max-w-screen-2xl m-auto p-5 ">
+      <div className="grid   grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 max-w-screen-2xl m-auto p-5 ">
         {users.map((user) => (
           <UserCard key={user.id} user={user} />
         ))}
