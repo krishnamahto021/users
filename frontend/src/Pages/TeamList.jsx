@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTeams, teamSelector } from "../redux/teamReducer";
 
 const TeamModal = ({ team, onClose }) => {
-  const maxVisibleUsers = 10; // Maximum number of users to display
+  const maxVisibleUsers = 10;
   const remainingUsersCount = team.users.length - maxVisibleUsers;
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center p-2">
       <div className="bg-white p-4 rounded-md shadow-lg">
         <h2 className="text-xl font-semibold mb-4">{team.name}</h2>
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 flex-wrap">
           {team.users.slice(0, maxVisibleUsers).map((user, index) => (
-            <div key={index} className="flex items-center mr-2">
+            <div key={index} className=" mr-5 ">
               <img
                 src={user.avatar}
                 alt={user.first_name}
                 className="w-10 h-10 rounded-full mr-2"
               />
-              <span>{user.first_name}</span>
+              <p>{user.first_name}</p>
             </div>
           ))}
           {remainingUsersCount > 0 && (

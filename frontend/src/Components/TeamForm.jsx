@@ -32,7 +32,6 @@ const TeamForm = ({ setShowTeamForm }) => {
     setSelectedDomain(domain);
     setPageNumber(1);
   };
-  console.log(selectedUsers);
   const handleCheckboxChange = (e) => {
     const userId = e.target.value;
     const isChecked = e.target.checked;
@@ -91,7 +90,7 @@ const TeamForm = ({ setShowTeamForm }) => {
             required
           />
         </div>
-        <div className="mb-4 flex items-center">
+        <div className="mb-4 md:flex md:items-center">
           <label htmlFor="domain" className="block mr-2">
             Domain:
           </label>
@@ -120,7 +119,7 @@ const TeamForm = ({ setShowTeamForm }) => {
           {selectedUsers.length > 0 && (
             <div className="ml-4">
               <p className="font-semibold">Selected Users:</p>
-              <div className="flex">
+              <div className="flex flex-wrap">
                 {selectedUsers.map((user) => {
                   return (
                     <div

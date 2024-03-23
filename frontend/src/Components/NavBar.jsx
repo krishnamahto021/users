@@ -93,8 +93,8 @@ const Navbar = () => {
         </div>
       )}
       {showUserForm && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-4 rounded-md shadow-lg w-1/2">
+        <div className="fixed top-0 p-4 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-md shadow-lg w-full md:w-1/2">
             <UserForm setShowUserForm={setShowUserForm} />
             <button
               onClick={() => setShowUserForm(false)}
