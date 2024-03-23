@@ -71,15 +71,15 @@ const TeamList = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {teams.map((team) => (
             <div
-              key={team.id}
+              key={team._id}
               className="bg-white rounded-md shadow-md p-4 flex flex-col items-center cursor-pointer"
               onClick={() => handleOpenModal(team)}
             >
               <h3 className="text-lg font-semibold mb-2">{team.name}</h3>
               <div className="flex items-center justify-center">
-                {team.users.slice(0, 3).map((user) => (
+                {team.users.slice(0, 3).map((user, index) => (
                   <img
-                    key={user.id}
+                    key={user._id}
                     src={user.avatar}
                     alt={user.name}
                     className="w-10 h-10 rounded-full mr-2"

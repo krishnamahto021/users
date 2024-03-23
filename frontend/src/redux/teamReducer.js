@@ -27,7 +27,6 @@ export const fetchUsersByDomain = createAsyncThunk(
       );
       return response.data.users;
     } catch (error) {
-      console.log(error);
       throw Error(error.response.data.message);
     }
   }

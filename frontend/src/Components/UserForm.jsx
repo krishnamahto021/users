@@ -27,7 +27,6 @@ const UserForm = ({ setShowUserForm }) => {
     setLoading(true);
     try {
       const { data } = await axios.post("/api/users", userData);
-      console.log(data);
       if (data.success) {
         toast.success(data.message);
         dispatch(addUser(data.user));

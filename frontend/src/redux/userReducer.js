@@ -7,6 +7,7 @@ import axios from "axios";
 // Define the initial state
 const initialState = {
   users: [],
+  searchResults: [],
   loading: false,
   error: null,
 };
@@ -17,6 +18,17 @@ export const fetchUsers = createAsyncThunk(
     try {
       const { data } = await axios.get(`/api/users?page=${pageNumber}`);
       return data.data.users;
+    } catch (error) {
+      throw Error(error.response.data.message);
+    }
+  }
+);
+export const searchUsers = createAsyncThunk(
+  "users/searchUsers",
+  async (query) => {
+    try {
+      const { data } = await axios.get(`/api/users/search?q=${query}`);
+      return data.users;
     } catch (error) {
       throw Error(error.response.data.message);
     }
@@ -91,6 +103,19 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(searchUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(searchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.searchResults = action.payload;
+      })
+      .addCase(searchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+        toast.error(action.error.message);
       });
   },
 });

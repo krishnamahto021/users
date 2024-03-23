@@ -222,11 +222,16 @@ module.exports.getUsersBasedOnDomain = async (req, res) => {
 module.exports.searchUser = async (req, res) => {
   try {
     const { q } = req.query;
-    const regex = new RegExp(q, "i"); // Case-insensitive regex pattern
+    const regexPattern = q.split("").join(".*");
+
+    const regex = new RegExp(`^${regexPattern}`, "i");
 
     const users = await User.find({
-      $or: [{ first_name: regex }, { last_name: regex }],
-    }).limit(20);
+      $or: [
+        { first_name: { $regex: regex } },
+        { last_name: { $regex: regex } },
+      ],
+    }).limit(10);
 
     res.status(200).json({ success: true, users });
   } catch (error) {

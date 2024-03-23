@@ -53,7 +53,7 @@ module.exports.fetchTeamById = async (req, res) => {
 
 module.exports.fetchTeamDetails = async (req, res) => {
   try {
-    const teams = await Team.find({}).populate({
+    const teams = await Team.find({}).sort({ createdAt: -1 }).populate({
       path: "users",
       select: "first_name last_name email domain avatar",
     });
